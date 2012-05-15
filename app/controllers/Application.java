@@ -5,12 +5,17 @@ import java.util.List;
 
 import models.Contact;
 import play.mvc.Controller;
+import play.mvc.Scope.RenderArgs;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 public class Application extends Controller {
+
+	public static RenderArgs getRenderArgs() {
+		return renderArgs;
+	}
 
 	public static void index() {
 		List<Contact> contacts = Contact.findAll();

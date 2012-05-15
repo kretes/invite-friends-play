@@ -1,5 +1,4 @@
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import models.Contact;
@@ -10,8 +9,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import play.mvc.Http.Response;
-import play.mvc.Scope;
-import play.mvc.Scope.RenderArgs;
 import play.test.Fixtures;
 import play.test.FunctionalTest;
 
@@ -74,17 +71,14 @@ public class ApplicationTest extends FunctionalTest {
 		Contact contact = new Contact("bob@gmail.com", "secret");
 		contact.invitationSent = true;
 		contact.save();
+		new Contact("joe@gmail.com", "secret").save();
 
 		Response response = GET("/application/invited");
 
 		assertIsOk(response);
-		List<Contact> contacts = (List<Contact>) getRenderParameter("contacts");
-		Assertions.assertThat(contacts).onProperty("email").contains("bob@gmail.com");
-	}
-
-	public static Object getRenderParameter(String key) {
-		RenderArgs current = Scope.RenderArgs.current();
-		return current.data.get(key);
+		// it would be better to assert only on render args not on full content
+		Assertions.assertThat(getContent(response)).contains("bob@gmail.com");
+		Assertions.assertThat(getContent(response)).excludes("joe@gmail.com");
 	}
 
 	private Map<String, String> map(final String key, final String value) {
