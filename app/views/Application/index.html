@@ -13,22 +13,22 @@
    $("#emailInput").bind('keypress', function(e){
 		 var code = (e.keyCode ? e.keyCode : e.which);
 		 if(code == 13 && $('ul.ui-autocomplete > li').size() == 1) { //Enter keycode
-		   	$('#contacts_selected > ul').append('<li>'+$('ul.ui-autocomplete > li:first').text()+'</li>');
+		 	var emailToAdd = $('ul.ui-autocomplete > li:first').text();
+		   	$('#contacts_selected > ul').append('<li>'+emailToAdd+'</li>');
+		   	$("ul#contacts_list > li:contains('" +emailToAdd + "')").remove();
 		 }
    });
  });
  </script>
 #{/set}
 
-
 <div id="contacts_fetched">
-
 <div class="button"><a href="@{Invite.inviteGmail()}">Invite friends from gmail</a></div>
 <div class="button"><a href="@{Invite.inviteFacebook()}">Invite friends from facebook</a></div>
 <div class="button"><a href="@{Invite.inviteLinkedIn()}">Invite friends from linkedin</a></div>
 <label for="email">Search By Email: </label>
 <input id="emailInput" name="email" class="autocomplete ui-autocomplete-input" data-url="@{Application.contactsByEmail()}" >
-<ul>
+<ul id="contacts_list">
   #{list items:contacts, as:'contact' }
         <li>${contact.email}, ${contact.name}</li>
   #{/list}	
@@ -37,6 +37,5 @@
 
 <div id="contacts_selected">
 <ul>
-
 </ul>	
 </div>
