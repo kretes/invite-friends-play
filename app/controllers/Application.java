@@ -42,6 +42,7 @@ public class Application extends Controller {
 			Contact contact = Contact.find("byEmail", email).first();
 			contact.invitationSent = true;
 			contact.name = "mew";
+			contact.save();
 		}
 	}
 
