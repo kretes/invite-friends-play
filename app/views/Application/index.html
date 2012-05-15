@@ -25,7 +25,6 @@
 		 }
    });
    
-   //var inviteAction = #{jsAction @inviteNoArg() /}
    var inviteAction = #{jsAction @invite(':friends') /}
    $('#inviteAction').click(function() {
    		$.post(inviteAction({friends:JSON.stringify(friendsToInvite)}), function(data) {

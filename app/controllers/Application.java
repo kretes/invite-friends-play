@@ -6,6 +6,7 @@ import java.util.List;
 import models.Contact;
 import play.mvc.Controller;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
@@ -29,13 +30,12 @@ public class Application extends Controller {
 		index();
 	}
 
-	public static void inviteNoArg() {
-		System.out.println("invite");
-	}
-
 	public static void invite(String friendsJson) {
 		JsonElement element = new JsonParser().parse(friendsJson);
-		System.out.println(element);
+		JsonArray arrayOfFriends = element.getAsJsonArray();
+		for (int i = 0; i < arrayOfFriends.size(); i++) {
+			System.out.println(arrayOfFriends.get(i));
+		}
 	}
 
 	public static void contactsByEmail(String term) {
