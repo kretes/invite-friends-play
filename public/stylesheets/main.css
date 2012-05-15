@@ -1,0 +1,8 @@
+
+.button {
+	bacground-color: black;
+	color: white;
+	border-radius: 8px;
+	border-width: 2px;
+	border-style: solid;
+}
