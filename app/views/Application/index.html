@@ -7,18 +7,37 @@
 #{set 'moreScripts'}
 	<script src="@{'/public/javascripts/autocomplete.js'}" type="text/javascript" charset="${_response_encoding}"></script>
 	<script src="@{'/public/javascripts/jquery-ui-1.8.13.custom.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+	<script type="text/javascript">
+  
+ $(document).ready(function(){
+   $("#emailInput").bind('keypress', function(e){
+   		
+		 var code = (e.keyCode ? e.keyCode : e.which);
+		 if(code == 13 && $('ul.ui-autocomplete > li').size() >	 1) { //Enter keycode
+		   	$('#contacts_selected > ul').append('<li>'+$('ul.ui-autocomplete > li:first').text()+'</li>');
+		 }
+   });
+ });
+ </script>
 #{/set}
 
 <div class="button"><a href="@{Invite.inviteGmail()}">Invite friends from gmail</a></div>
 <div class="button"><a href="@{Invite.inviteFacebook()}">Invite friends from facebook</a></div>
 <div class="button"><a href="@{Invite.inviteLinkedIn()}">Invite friends from linkedin</a></div>
 
-	<label for="email">Search By Email: </label>
-	<input name="email" class="autocomplete ui-autocomplete-input" data-url="@{Application.contactsByEmail()}"
-	role="textbox" aria-autocomplete="list" aria-haspopup="true">
 
+<div id="contacts_fetched">
+<label for="email">Search By Email: </label>
+<input id="emailInput" name="email" class="autocomplete ui-autocomplete-input" data-url="@{Application.contactsByEmail()}" >
 <ul>
   #{list items:contacts, as:'contact' }
         <li>${contact.email}, ${contact.name}</li>
   #{/list}	
 </ul>
+</div>
+
+<div id="contacts_selected">
+<ul>
+
+</ul>	
+</div>
