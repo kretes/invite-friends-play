@@ -10,7 +10,14 @@ public class Contact extends Model {
 		this.email = email;
 		this.name = name;
 	}
+
 	public String email;
 	public String name;
-	public boolean invitationSent = false;
+	public boolean invitationSent;
+
+	@Override
+	public String toString() {
+		return "Contact [email=" + email + ", name=" + name + ", invitationSent=" + invitationSent + "]";
+	}
+
 }

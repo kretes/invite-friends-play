@@ -1,12 +1,22 @@
+import java.util.HashMap;
+import java.util.Map;
+
 import models.Contact;
 
 import org.fest.assertions.Assertions;
+import org.junit.Before;
 import org.junit.Test;
 
 import play.mvc.Http.Response;
+import play.test.Fixtures;
 import play.test.FunctionalTest;
 
 public class ApplicationTest extends FunctionalTest {
+
+	@Before
+	public void cleanDB() {
+		Fixtures.deleteDatabase();
+	}
 
 	@Test
 	public void testThatIndexPageWorks() {
@@ -41,11 +51,23 @@ public class ApplicationTest extends FunctionalTest {
 	@Test
 	public void shouldInviteFriends() {
 		new Contact("bob@gmail.com", "secret").save();
+		Assertions.assertThat(((Contact) Contact.findAll().get(0)).invitationSent).isFalse();
 
-		String friendsJson = "[{\"email\":\"jwermuth@gmail.com\"}]";
+		String friendsJson = "[{\"email\":\"bob@gmail.com\"}]";
 		// TODO // check how // to easily // generate // JSOn in // java code
 
-		POST("/application/invite?friends=" + friendsJson);
+		POST("/application/invite", map("friends", friendsJson));
+
+		System.out.println(Contact.findAll());
+		Assertions.assertThat(((Contact) Contact.findAll().get(0)).invitationSent).isTrue();
+	}
+
+	private Map<String, String> map(final String key, final String value) {
+		return new HashMap<String, String>() {
+			{
+				put(key, value);
+			}
+		};
 	}
 
 	private void assertOKJsonResponse(Response response) {

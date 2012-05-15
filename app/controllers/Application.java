@@ -22,7 +22,6 @@ public class Application extends Controller {
 	}
 
 	public static void inviteCallback() {
-
 		new Contact("jwermuth@gmail.com", "Jesper").save();
 		new Contact("whabula@gmail.com", "Whabula").save();
 		new Contact("wrinkle@gmail.com", "John Smith").save();
@@ -30,11 +29,19 @@ public class Application extends Controller {
 		index();
 	}
 
-	public static void invite(String friendsJson) {
-		JsonElement element = new JsonParser().parse(friendsJson);
+	// TODO it would be better to have JSON automatically resolved as my Object
+	// like Contact
+	// maybe there is an easier way than to register TypeBinder for my type
+	public static void invite(String friends) {
+		JsonElement element = new JsonParser().parse(friends);
 		JsonArray arrayOfFriends = element.getAsJsonArray();
 		for (int i = 0; i < arrayOfFriends.size(); i++) {
-			System.out.println(arrayOfFriends.get(i));
+			String email = arrayOfFriends.get(i).getAsJsonObject().get("email").getAsString();
+			System.out.println("looking for email " + email);
+			System.out.println(Contact.findAll());
+			Contact contact = Contact.find("byEmail", email).first();
+			contact.invitationSent = true;
+			contact.name = "mew";
 		}
 	}
 
