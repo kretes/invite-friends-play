@@ -7,17 +7,30 @@
 #{set 'moreScripts'}
 	<script src="@{'/public/javascripts/autocomplete.js'}" type="text/javascript" charset="${_response_encoding}"></script>
 	<script src="@{'/public/javascripts/jquery-ui-1.8.13.custom.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+	<script src="http://documentcloud.github.com/underscore/underscore.js" type="text/javascript" charset="${_response_encoding}"></script>
+	<script src="http://documentcloud.github.com/backbone/backbone.js" type="text/javascript" charset="${_response_encoding}"></script>
 	<script type="text/javascript">
   
  $(document).ready(function(){
+ 	
+ 	
+   var friendsToInvite = new Backbone.Collection()
+    
    $("#emailInput").bind('keypress', function(e){
 		 var code = (e.keyCode ? e.keyCode : e.which);
 		 if(code == 13 && $('ul.ui-autocomplete > li').size() == 1) { //Enter keycode
 		 	var emailToAdd = $('ul.ui-autocomplete > li:first').text();
-		   	$('#contacts_selected > ul').append('<li>'+emailToAdd+'</li>');
+		   	$('#contacts_selected').append('<li>'+emailToAdd+'</li>');
 		   	$("ul#contacts_list > li:contains('" +emailToAdd + "')").remove();
+			friendsToInvite.add({email:emailToAdd});	   	
 		 }
    });
+   
+   var inviteAction = #{jsAction @invite(':friends') /}
+   $('#inviteAction').click(function() {
+   		$.post(inviteAction, friendsToInvite);
+   		console.log('will invite' + JSON.stringify(friendsToInvite));
+   })
  });
  </script>
 #{/set}
@@ -35,7 +48,8 @@
 </ul>
 </div>
 
-<div id="contacts_selected">
-<ul>
+<div class="right">
+<a href="#" id="inviteAction">Invite</a>
+<ul id="contacts_selected">
 </ul>	
 </div>

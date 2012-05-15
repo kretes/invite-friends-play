@@ -7,16 +7,18 @@
 	border-style: solid;
 }
 
-#contacts_fetched {
+.right {
+	float: right;
+	width: 300px;
+	margin-right: 300px;
+}
+
+#contacts_fetched	 {
 	float: left;
 	width: 300px;
 	margin-left: 300px;
 }
 
 #contacts_selected {
-	float: right;
-	width: 300px;
-	margin-right: 300px;
 }
 
-#

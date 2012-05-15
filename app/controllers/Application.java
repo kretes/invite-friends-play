@@ -26,6 +26,11 @@ public class Application extends Controller {
 		index();
 	}
 
+	public static void invite(Object friends) {
+		System.out.println(friends);
+
+	}
+
 	public static void contactsByEmail(String term) {
 		List<Contact> contacts = Contact.find("byEmailLike", "%" + term + "%")
 				.fetch();
