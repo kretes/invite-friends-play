@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import models.Contact;
@@ -29,7 +30,11 @@ public class Application extends Controller {
 	public static void contactsByEmail(String term) {
 		List<Contact> contacts = Contact.find("byEmailLike", "%" + term + "%")
 				.fetch();
-		renderJSON(contacts);
+		List<String> emails = new ArrayList<String>();
+		for (Contact contact : contacts) {
+			emails.add(contact.email);
+		}
+		renderJSON(emails);
 	}
 
 }
