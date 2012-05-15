@@ -23,8 +23,7 @@ public class ApplicationTest extends FunctionalTest {
 		Response response = searchForContactsWith("job");
 
 		assertOKJsonResponse(response);
-		Assertions.assertThat(getContent(response)).contains(
-				"bob.job@gmail.com");
+		Assertions.assertThat(getContent(response)).contains("bob.job@gmail.com");
 	}
 
 	@Test
@@ -39,6 +38,15 @@ public class ApplicationTest extends FunctionalTest {
 		Assertions.assertThat(getContent(response)).excludes("joe@gmail.com");
 	}
 
+	public void shouldInviteFriends() {
+		new Contact("bob@gmail.com", "secret").save();
+
+		String friendsJson = "[{\"email\":\"jwermuth@gmail.com\"}]";
+		// TODO // check how // to easily // generate // JSOn in // java code
+
+		GET("/application/invite?friends=" + friendsJson);
+	}
+
 	private void assertOKJsonResponse(Response response) {
 		assertIsOk(response);
 		assertContentType("application/json", response);
@@ -46,8 +54,7 @@ public class ApplicationTest extends FunctionalTest {
 	}
 
 	private Response searchForContactsWith(String searchTerm) {
-		Response response = GET("/application/contactsbyemail?term="
-				+ searchTerm);
+		Response response = GET("/application/contactsbyemail?term=" + searchTerm);
 		return response;
 	}
 

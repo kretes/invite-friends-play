@@ -13,7 +13,6 @@
   
  $(document).ready(function(){
  	
- 	
    var friendsToInvite = new Backbone.Collection()
     
    $("#emailInput").bind('keypress', function(e){
@@ -26,9 +25,12 @@
 		 }
    });
    
+   //var inviteAction = #{jsAction @inviteNoArg() /}
    var inviteAction = #{jsAction @invite(':friends') /}
    $('#inviteAction').click(function() {
-   		$.post(inviteAction, friendsToInvite);
+   		$.post(inviteAction({friends:JSON.stringify(friendsToInvite)}), function(data) {
+  			console.log(data);
+		});
    		console.log('will invite' + JSON.stringify(friendsToInvite));
    })
  });
