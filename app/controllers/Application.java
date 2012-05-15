@@ -28,11 +28,12 @@ public class Application extends Controller {
 		render("@index", contacts);
 	}
 
-	public static void contactsByEmail() {
+	public static void contactsByEmail(String term) {
+		System.out.println("term " + term);
 		final List<String> response = new ArrayList<String>();
 
-		response.add("1");
-		response.add("2");
+		response.add("1" + term);
+		response.add("2" + term);
 		renderJSON(response);
 
 	}

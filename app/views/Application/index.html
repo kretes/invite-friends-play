@@ -3,8 +3,9 @@
 
 <!-- #{welcome /} -->
 
-#{set 'morescripts'}
-	<script src="@{'/public/javascripts/autocomplete.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+#{set 'moreScripts'}
+<script src="@{'/public/javascripts/autocomplete.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+<script src="@{'/public/javascripts/jquery-ui-1.8.13.custom.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
 #{/set}
 
 <div class="button"><a href="@{Invite.inviteGmail()}">Invite friends from gmail</a></div>

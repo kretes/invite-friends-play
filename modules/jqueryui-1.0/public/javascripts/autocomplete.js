@@ -1,4 +1,4 @@
-$(function() {
+$(document).ready(function(){
 
    /*
     * Autocomplete for populating an input field with a value from the server.
