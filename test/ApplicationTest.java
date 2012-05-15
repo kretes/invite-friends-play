@@ -17,15 +17,38 @@ public class ApplicationTest extends FunctionalTest {
 	}
 
 	@Test
-	public void testThatContactsCanBeFetchedByEmailPart() {
-		new Contact("bob@gmail.com", "secret").save();
+	public void shouldBeFetchedByEmailPartWhenOnlyOneContactExist() {
+		new Contact("bob.job@gmail.com", "secret").save();
 
-		Response response = GET("/application/contactsbyemail?term=bob");
+		Response response = searchForContactsWith("job");
+
+		assertOKJsonResponse(response);
+		Assertions.assertThat(getContent(response)).contains(
+				"bob.job@gmail.com");
+	}
+
+	@Test
+	public void shouldBeFetchedByEmailPartWhenOtherContactsExist() {
+		new Contact("bob@gmail.com", "secret").save();
+		new Contact("joe@gmail.com", "secret").save();
+
+		Response response = searchForContactsWith("bob");
+
+		assertOKJsonResponse(response);
+		Assertions.assertThat(getContent(response)).contains("bob@gmail.com");
+		Assertions.assertThat(getContent(response)).excludes("joe@gmail.com");
+	}
+
+	private void assertOKJsonResponse(Response response) {
 		assertIsOk(response);
 		assertContentType("application/json", response);
 		assertCharset(play.Play.defaultWebEncoding, response);
+	}
 
-		Assertions.assertThat(getContent(response)).contains("bob@gmail.com");
+	private Response searchForContactsWith(String searchTerm) {
+		Response response = GET("/application/contactsbyemail?term="
+				+ searchTerm);
+		return response;
 	}
 
 }
