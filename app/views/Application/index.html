@@ -28,7 +28,8 @@
    var inviteAction = #{jsAction @invite(':friends') /}
    $('#inviteAction').click(function() {
    		$.post(inviteAction({friends:JSON.stringify(friendsToInvite)}), function(data) {
-  			console.log(data);
+  			console.log('should show @{Application.invited()}');
+  			window.location.href = "@{Application.invited()}";
 		});
    		console.log('will invite' + JSON.stringify(friendsToInvite));
    })

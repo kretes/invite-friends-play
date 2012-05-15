@@ -37,13 +37,17 @@ public class Application extends Controller {
 		JsonArray arrayOfFriends = element.getAsJsonArray();
 		for (int i = 0; i < arrayOfFriends.size(); i++) {
 			String email = arrayOfFriends.get(i).getAsJsonObject().get("email").getAsString();
-			System.out.println("looking for email " + email);
-			System.out.println(Contact.findAll());
 			Contact contact = Contact.find("byEmail", email).first();
 			contact.invitationSent = true;
-			contact.name = "mew";
 			contact.save();
 		}
+		System.out.println(Contact.findAll() + " after");
+		invited();
+	}
+
+	public static void invited() {
+		List<Contact> contacts = Contact.find("byInvitationSent", true).fetch();
+		render(contacts);
 	}
 
 	public static void contactsByEmail(String term) {

@@ -1,0 +1,9 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+
+invited friends:
+<ul>
+  #{list items:contacts, as:'contact' }
+        <li>${contact.email}, ${contact.name}</li>
+  #{/list}	
+</ul>
