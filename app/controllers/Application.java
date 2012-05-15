@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import models.Contact;
-import play.db.jpa.JPABase;
 import play.mvc.Controller;
+import controllers.jqueryui.TestData;
 
 public class Application extends Controller {
 
@@ -28,5 +28,13 @@ public class Application extends Controller {
 		render("@index", contacts);
 	}
 
+	public static void contactsByEmail() {
+		final List<String> response = new ArrayList<String>();
+
+		response.add("1");
+		response.add("2");
+		renderJSON(response);
+
+	}
 
 }

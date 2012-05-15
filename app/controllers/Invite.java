@@ -13,7 +13,6 @@ public class Invite extends Controller {
 		render();
 	}
 	
-	
 	public static void inviteGmail() {
 		Invite.index();
 	}
